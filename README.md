@@ -2,7 +2,7 @@
 
 Rubarb is a lightweight MVC framework which implements a user-friendly API to simplify running a server, constructing routes, rendering HTML pages, and handling redirects.
 
-[Click here](https://github.com/jamesball27/rubarb-demo) for a demo site built using Rubarb to see it in action!
+[Visit this repo](https://github.com/jamesball27/rubarb-demo) for a demo app built using Rubarb to see it in action!
 
 ## How to Use
 
@@ -32,18 +32,25 @@ Rack::Server.start(
 ```
 
 Once your server file is all set up, simply navigate to your project's root directory and run
-`$ bundle exec ruby server.rb` to start your local server. In your browser navigate to `localhost:3000` (or whichever port specified in your file) to see your app in action! You will, of course, need to setup routes, controllers, and views before anything is rendered in your browser. Read on for more information.
+`$ bundle exec ruby server.rb` in your terminal to start your local server. In your browser navigate to `localhost:3000` (or whichever port specified in your file) to see your app in action! You will, of course, need to set up routes, controllers, and views before anything is rendered in your browser. Read on for more information.
 
 ### Routes
 Your app's routes should live in `config/routes.rb`. This file should construct a new instance of `Router` and save it to a constant so your server has access to it. By passing a block to `Router#draw`, routes can be constructed using the following template:
 ```ruby
 http_method Regexp.new('url_regexp'), ControllerName, :controller_action
 ```
-For example:
+See below for a sample `routes.rb` file:
+
 ```ruby
-get Regexp.new("^/users/new$"), UsersController, :new
+require_relative "../Rubarb/router.rb"
+require_relative "../controllers/users_controller.rb"
+
+ROUTER = Router.new
+ROUTER.draw do
+  get Regexp.new("^/users/new$"), UsersController, :new
+  post Regexp.new("^/users$"), UsersController, :create
+end
 ```
-will make a `GET` request to `/users/new`, create a new instance of the `UsersController` and call its `#new` method.
 
 ### Controllers
 All of your app's controllers should exist in a separate `/controllers` directory and inherit from `ControllerBase`, which provides the following methods:
@@ -56,7 +63,7 @@ All of your app's controllers should exist in a separate `/controllers` director
 __*N.B.:*__ You may only call one of `redirect_to`, `render_content`, or `render` per action. Calling one of these methods more than once, or calling more than one of them will result in a `Double Render Error`.
 
 ### Views
-All views should be organized into a `/views` directory and views for a specific controller must live in a directory within `/views` named after that controller, e.g. `views/users_controller/`, so that the controller's `render` method can accurately locate the correct file to render.
+All views should be organized into a `/views` directory. Views for a specific controller must live in a directory within `/views` named after that controller, e.g. `views/users_controller/`, so that the controller's `render` method can accurately locate the correct file to render.
 
 ### Cookies
 Cookies can be set using two options: Session and Flash, both of which are hash-like objects that provide an easy interface using `#[]` and `#[]=` getter and setter methods. Session cookies will exist until the user ends their browser session. Flash cookies will exist for the current and the next request/response cycle, while Flash.now cookies will exist for the current request/response cycle only.
