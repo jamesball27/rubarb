@@ -2,11 +2,11 @@
 
 Rubarb is a lightweight MVC framework which implements a user-friendly API to simplify running a server, constructing routes, rendering HTML pages, and handling redirects.
 
-Visit this repo for a demo site built using Rubarb to see it in action!
+[Click here](https://github.com/jamesball27/rubarb-demo) for a demo site built using Rubarb to see it in action!
 
 ## How to Use
 
-To use Rubarb, simply clone this repo into the root directory of your project. To get a server up and running, you will need to create a `server.rb` file. It is recommended that your server file be located in your project's root directory for simpler command line interaction, but it could potentially live anywhere inside your project.
+To use Rubarb, simply clone this repo into the root directory of your project. Be sure to update your `Gemfile` with Rubarb's dependencies (activesupport, puma, rack). To get a server up and running, you will need to create a `server.rb` file. It is recommended that your server file be located in your project's root directory for simpler command line interaction, but it could potentially live anywhere inside your project.
 
 ### Server File
 
