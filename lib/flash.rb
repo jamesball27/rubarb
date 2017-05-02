@@ -15,7 +15,7 @@ class Flash
 
   def store_flash(res)
     res.set_cookie(
-      "_rails_lite_app_flash",
+      "_rubarb_flash",
       { path: "/", value: flash_data.to_json }
     )
   end

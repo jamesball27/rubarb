@@ -18,7 +18,7 @@ class Session
 
   def store_session(res)
     res.set_cookie(
-      "_rails_lite_app",
+      "_rubarb_app",
       { path: "/", value: session_data.to_json}
     )
   end
