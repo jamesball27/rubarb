@@ -15,19 +15,14 @@ class ControllerBase
     @params = req.params.merge(route_params)
   end
 
-  def already_built_response?
-    @already_built_response
-  end
-
   def redirect_to(url)
     raise "Double Render Error" if already_built_response?
 
     res.status = 302
     res.location = url
     @already_built_response = true
-
-    session.store_session(res)
-    flash.store_flash(res)
+    
+    store_cookies
   end
 
   def render_content(content, content_type)
@@ -37,8 +32,7 @@ class ControllerBase
     res.write(content)
     @already_built_response = true
 
-    session.store_session(res)
-    flash.store_flash(res)
+    store_cookies
   end
 
   def render(template_name)
@@ -49,17 +43,27 @@ class ControllerBase
     render_content(template, "text/html")
   end
 
-  def session
-    @session ||= Session.new(req)
-  end
-
   def invoke_action(name)
     self.send(name)
     render(name) unless already_built_response?
+  end
+
+  def session
+    @session ||= Session.new(req)
   end
 
   def flash
     @flash ||= Flash.new(req)
   end
 
+  private
+
+  def already_built_response?
+    @already_built_response
+  end
+
+  def store_cookies
+    session.store_session(res)
+    flash.store_flash(res)
+  end
 end
