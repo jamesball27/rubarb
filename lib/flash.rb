@@ -3,8 +3,8 @@ require 'json'
 class Flash
 
   def initialize(req)
-    cookie = req.cookies["_rails_lite_app_flash"]
-    
+    cookie = req.cookies["_rubarb_flash"]
+
     @flash_now_data = cookie ? JSON.parse(cookie) : {}
     @flash_data = {}
   end
@@ -20,10 +20,6 @@ class Flash
     )
   end
 
-  private
-
-  attr_reader :flash_data, :flash_now_data
-
   def [](key)
     flash_now_data[key.to_s]
   end
@@ -32,5 +28,9 @@ class Flash
     flash_data[key] = val
     flash_now_data[key] = val
   end
+
+  private
+
+  attr_reader :flash_data, :flash_now_data
 
 end
